@@ -1,0 +1,6 @@
+{
+  "name": "VALDRION | فالدريون",
+  "description": "منصة السينما الإمبراطورية وإدارة سيرفرات البث المباشر والأفلام والمسلسلات مع فلتر المشاهد العائلي المتقدم.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

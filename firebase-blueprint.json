@@ -1,0 +1,236 @@
+{
+  "entities": {
+    "UserAccount": {
+      "title": "UserAccount",
+      "description": "Private VALDRION user account storing Google profile metadata, active viewing profile, family guard state, favorites, and watch-night queue.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID matching the document ID.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name from Google Auth.",
+          "maxLength": 120
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Private user email address isolated to owner reads only.",
+          "maxLength": 200
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Optional Google avatar URL.",
+          "maxLength": 500
+        },
+        "familyGuard": {
+          "type": "boolean",
+          "description": "Whether the +18 family content filter is enabled."
+        },
+        "activeProfileId": {
+          "type": "string",
+          "enum": ["imperial", "family", "kids"],
+          "description": "Active viewing profile tier.",
+          "maxLength": 20
+        },
+        "activeServerId": {
+          "type": "string",
+          "description": "Currently selected server identifier.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "favorites": {
+          "type": "array",
+          "description": "Bounded list (max 200) of favorited media item IDs."
+        },
+        "watchQueue": {
+          "type": "array",
+          "description": "Bounded list (max 50) of media IDs queued for watch night."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Immutable server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of the last modification."
+        }
+      },
+      "required": [
+        "uid",
+        "displayName",
+        "email",
+        "photoURL",
+        "familyGuard",
+        "activeProfileId",
+        "activeServerId",
+        "favorites",
+        "watchQueue",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "UserServer": {
+      "title": "UserServer",
+      "description": "Private Xtream Codes or M3U server profile saved exclusively under the owning user.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique server document ID.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Owning user UID matching parent path and request.auth.uid.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "name": {
+          "type": "string",
+          "description": "User-defined server display name.",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "type": {
+          "type": "string",
+          "enum": ["xtream", "m3u"],
+          "description": "Server protocol type.",
+          "maxLength": 20
+        },
+        "host": {
+          "type": "string",
+          "description": "Server Host URL or M3U URL.",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "username": {
+          "type": "string",
+          "description": "Optional Xtream username.",
+          "maxLength": 120
+        },
+        "password": {
+          "type": "string",
+          "description": "Optional Xtream password.",
+          "maxLength": 120
+        },
+        "m3uContent": {
+          "type": "string",
+          "description": "Optional raw M3U playlist content.",
+          "maxLength": 50000
+        },
+        "useProxy": {
+          "type": "boolean",
+          "description": "Whether to route server requests via the built-in proxy."
+        },
+        "addedAt": {
+          "type": "number",
+          "description": "Epoch milliseconds when server was added."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Immutable server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of the last modification."
+        }
+      },
+      "required": [
+        "id",
+        "ownerId",
+        "name",
+        "type",
+        "host",
+        "username",
+        "password",
+        "m3uContent",
+        "useProxy",
+        "addedAt",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "UserAiSession": {
+      "title": "UserAiSession",
+      "description": "Private cloud-synced VALDRION AI Studio conversation session stored strictly under the owning user.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique AI session document ID.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Owning user UID matching parent path and request.auth.uid.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Short conversation title.",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "updatedAtMs": {
+          "type": "number",
+          "description": "Client sort timestamp in epoch milliseconds."
+        },
+        "messages": {
+          "type": "array",
+          "description": "Bounded list (max 40) of native AI chat message maps."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Immutable server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of the last modification."
+        }
+      },
+      "required": [
+        "id",
+        "ownerId",
+        "title",
+        "updatedAtMs",
+        "messages",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserAccount" },
+      "description": "Private per-user profile, preferences, favorites, and watch-night queue."
+    },
+    "/users/{userId}/servers/{serverId}": {
+      "schema": { "$ref": "#/entities/UserServer" },
+      "description": "Private per-user Xtream Codes and M3U server configurations."
+    },
+    "/users/{userId}/aiSessions/{sessionId}": {
+      "schema": { "$ref": "#/entities/UserAiSession" },
+      "description": "Private per-user VALDRION AI Studio synced chat sessions."
+    }
+  }
+}
